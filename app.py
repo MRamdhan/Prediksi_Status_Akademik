@@ -105,21 +105,24 @@ if menu == "Prediksi":
             data_scaled = scaler.transform(data)
             prediction = model.predict(data_scaled)
             prob = model.predict_proba(data_scaled)[0]
-            if prob[1] >= 0.25:
+            # probabilitas
+            dropout_prob = prob[0]
+            enrolled_prob = prob[1]
+            graduate_prob = prob[2]
+            # threshold enrolled
+            if enrolled_prob >= 0.25:
                 hasil = "Enrolled"
             else:
                 hasil = encoder.inverse_transform(
-                    model.predict(data_scaled)
+                    prediction
                 )[0]
-            hasil = encoder.inverse_transform(prediction)[0]
             st.write(
                 {
-                    "Dropout": prob[0][0],
-                    "Enrolled": prob[0][1],
-                    "Graduate": prob[0][2]
+                    "Dropout": f"{dropout_prob*100:.2f}%",
+                    "Enrolled": f"{enrolled_prob*100:.2f}%",
+                    "Graduate": f"{graduate_prob*100:.2f}%"
                 }
             )
-
             st.success(f"""
             Nama: {nama}
             
