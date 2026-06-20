@@ -1,4 +1,6 @@
-joblib
+Flask==3.x.x
+numpy
 pandas
 scikit-learn
-streamlit
+joblib
+gunicorn
