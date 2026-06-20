@@ -28,7 +28,19 @@ if menu == "Prediksi":
     nama = st.text_input("Nama Mahasiswa")
     age = st.number_input("Umur Saat Masuk Kuliah", min_value=15, max_value=70)
     admission = st.number_input("Nilai Masuk Kuliah", min_value=0.0, max_value=200.0)
-    tuition = st.selectbox("Status Pembayaran UKT (0 = Sudah Bayar, 1 = Belum Bayar)", [0, 1])
+    tuition_status = st.selectbox(
+        "Status Pembayaran UKT",
+        [
+            "Sudah Bayar",
+            "Belum Bayar"
+        ]
+    )
+
+
+    if tuition_status == "Sudah Bayar":
+        tuition = 1
+    else:
+        tuition = 0
 
     st.subheader("Semester 1")
     sem1_enrolled = st.number_input("Jumlah Mata Kuliah Semester 1", min_value=0)
