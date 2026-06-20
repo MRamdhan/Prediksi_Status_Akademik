@@ -93,6 +93,7 @@ if menu == "Prediksi":
             data_scaled = scaler.transform(data)
             prediction = model.predict(data_scaled)
             prob = model.predict_proba(data_scaled)
+            hasil = encoder.inverse_transform(prediction)[0]
             st.write(
                 {
                     "Dropout": prob[0][0],
@@ -100,7 +101,6 @@ if menu == "Prediksi":
                     "Graduate": prob[0][2]
                 }
             )
-            hasil = encoder.inverse_transform(prediction)[0]
 
             st.success(f"""
             Nama: {nama}
