@@ -103,9 +103,21 @@ if menu == "Prediksi":
             ]])
 
             data_scaled = scaler.transform(data)
+
+            # Prediksi model
             prediction = model.predict(data_scaled)
-            prob = model.predict_proba(data_scaled)
+
+            # Probabilitas tiap kelas
+            prob = model.predict_proba(data_scaled)[0]
+
+
+            # hasil prediksi asli Random Forest
             hasil = encoder.inverse_transform(prediction)[0]
+
+
+            # tampilkan probabilitas
+            st.subheader("Probabilitas Prediksi")
+
             st.write(
                 {
                     "Dropout": f"{prob[0]*100:.2f}%",
@@ -114,11 +126,15 @@ if menu == "Prediksi":
                 }
             )
 
-            st.success(f"""
+
+            st.success(
+            f"""
             Nama: {nama}
-            
-            Status Akademik: {hasil}
-            """)
+
+            Status Akademik:
+            {hasil}
+            """
+            )
 
             if hasil == "Graduate":
                 st.info("Mahasiswa diprediksi memiliki kemungkinan tinggi menyelesaikan studi.")
