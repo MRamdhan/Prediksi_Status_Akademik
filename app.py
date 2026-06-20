@@ -76,7 +76,7 @@ if menu == "Prediksi":
 
 
     tuition = st.selectbox(
-        "Status Pembayaran UKT (0 = Sudah Bayar, 1 = Belom bayar)",
+        "Status Pembayaran UKT (0 = Sudah Bayar, 1 = Belum Bayar)",
         [
             0,
             1
@@ -102,7 +102,7 @@ if menu == "Prediksi":
 
 
     sem1_grade = st.number_input(
-        "Nilai Semester 1",
+        "Nilai Semester 1 (Skala Dataset 0-20)",
         min_value=0.0,
         max_value=20.0
     )
@@ -127,7 +127,7 @@ if menu == "Prediksi":
 
 
     sem2_grade = st.number_input(
-        "Nilai Semester 2",
+        "Nilai Semester 2 (Skala Dataset 0-20)",
         min_value=0.0,
         max_value=20.0
     )
@@ -164,28 +164,68 @@ if menu == "Prediksi":
             # 36 FEATURES DATASET
 
             data = np.array([[
-                0,0,0,0,0,0,0,0,0,0,0,0,
-                admission,
-                0,0,0,
-                tuition,
-                0,0,
-                age,
-                0,
-                0,
-                sem1_enrolled,
-                0,
-                0,
-                sem1_approved,
-                sem1_grade,
-                0,
-                sem2_enrolled,
-                0,
-                0,
-                sem2_approved,
-                sem2_grade,
-                0,
-                0,
-                0
+                0, # Marital status
+                0, # Application mode
+                0, # Application order
+                0, # Course
+                0, # Daytime
+                0, # Previous qualification
+                0, # Previous qualification grade
+                0, # Nationality
+                0, # Mother qualification
+                0, # Father qualification
+                0, # Mother occupation
+                0, # Father occupation
+
+                admission, # Admission grade
+
+                0, # Displaced
+                0, # Educational special needs
+                0, # Debtor
+
+                tuition, # Tuition fees up to date
+
+                0, # Gender
+                0, # Scholarship holder
+
+                age, # Age enrollment
+
+                0, # International
+
+
+                0, # sem1 credited
+
+                sem1_enrolled, # sem1 enrolled
+
+                0, # sem1 evaluations
+
+                sem1_approved, # sem1 approved
+
+                sem1_grade, # sem1 grade
+
+                0, # sem1 without evaluation
+
+
+
+                0, # sem2 credited
+
+                sem2_enrolled, # sem2 enrolled
+
+                0, # sem2 evaluation
+
+                sem2_approved, # sem2 approved
+
+                sem2_grade, # sem2 grade
+
+                0, # sem2 without evaluation
+
+
+
+                0, # unemployment
+
+                0, # inflation
+
+                0  # GDP
             ]])
 
 
