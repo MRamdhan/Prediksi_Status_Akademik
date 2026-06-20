@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Analisis Model</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Dashboard Analisis Model Machine Learning</h1>
+        <p>Prediksi Status Akademik Mahasiswa</p>
+
+        <div class="card-container">
+            <div class="card">
+                <h3>Akurasi KNN</h3>
+                <h2>{{knn}}%</h2>
+            </div>
+
+            <div class="card">
+                <h3>Akurasi Random Forest</h3>
+                <h2>{{rf}}%</h2>
+            </div>
+
+            <div class="card">
+                <h3>Model Terbaik</h3>
+                <h2>{{best}}</h2>
+            </div>
+        </div>
+
+        <h2>Perbandingan Akurasi Algoritma</h2>
+
+        <div class="chart">
+            <div class="bar">
+                <p>KNN</p>
+                <div class="progress">
+                    <div class="knn">{{knn}}%</div>
+                </div>
+            </div>
+
+            <div class="bar">
+                <p>Random Forest</p>
+                <div class="progress">
+                    <div class="rf">{{rf}}%</div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Confusion Matrix Model</h2>
+
+        <div class="matrix-container">
+            <div>
+                <h3>KNN</h3>
+                <img src="/static/images/cm_knn.png" class="matrix">
+            </div>
+
+            <div>
+                <h3>Random Forest</h3>
+                <img src="/static/images/cm_rf.png" class="matrix">
+            </div>
+        </div>
+
+        <a href="/">Kembali ke Prediksi</a>
+    </div>
+
+</body>
+</html>

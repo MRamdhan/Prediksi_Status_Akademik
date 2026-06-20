@@ -1,0 +1,388 @@
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+
+body{
+
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+
+    background:#f2f4f7;
+
+
+    margin:0;
+
+
+}
+
+
+
+
+.container{
+
+
+    width:500px;
+
+
+    margin:40px auto;
+
+
+    background:white;
+
+
+    padding:30px;
+
+
+    border-radius:15px;
+
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.1);
+
+
+}
+
+
+
+
+
+h1{
+
+
+    text-align:center;
+
+
+    font-size:26px;
+
+
+    margin-bottom:5px;
+
+
+}
+
+
+
+.subtitle{
+
+
+    text-align:center;
+
+
+    color:#666;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+
+h2{
+
+
+    margin-top:25px;
+
+
+    border-bottom:2px solid #ddd;
+
+
+    padding-bottom:8px;
+
+
+}
+
+
+
+
+
+label{
+
+
+    display:block;
+
+
+    margin-top:15px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+input,
+select{
+
+
+    width:100%;
+
+
+    padding:12px;
+
+
+    margin-top:7px;
+
+
+    border-radius:8px;
+
+
+    border:1px solid #ccc;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+input:focus,
+select:focus{
+
+
+    outline:none;
+
+
+    border-color:#333;
+
+
+}
+
+
+
+
+
+
+button{
+
+
+    width:100%;
+
+
+    margin-top:30px;
+
+
+    padding:14px;
+
+
+    background:#222;
+
+
+    color:white;
+
+
+    border:none;
+
+
+    border-radius:8px;
+
+
+    font-size:16px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+button:hover{
+
+
+    background:#444;
+
+
+}
+
+
+
+
+
+
+
+.error{
+
+
+    margin-top:25px;
+
+
+    padding:20px;
+
+
+    background:#ffe5e5;
+
+
+    border-left:5px solid red;
+
+
+    border-radius:10px;
+
+
+    color:#900;
+
+
+}
+
+
+
+
+
+
+.hasil{
+
+
+    margin-top:25px;
+
+
+    padding:25px;
+
+
+    background:#e8f5e9;
+
+
+    border-radius:10px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+.status{
+
+
+    display:inline-block;
+
+
+    padding:8px 15px;
+
+
+    margin-left:5px;
+
+
+    background:#222;
+
+
+    color:white;
+
+
+    border-radius:20px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+
+@media(max-width:600px){
+
+
+    .container{
+
+
+        width:90%;
+
+
+    }
+
+
+}
+/* NAVBAR */
+
+.navbar{
+
+
+width:100%;
+
+
+background:#222;
+
+
+padding:15px 30px;
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+align-items:center;
+
+
+color:white;
+
+
+}
+
+
+
+.logo{
+
+
+font-size:20px;
+
+
+font-weight:bold;
+
+
+}
+
+
+
+
+.menu a{
+
+
+color:white;
+
+
+text-decoration:none;
+
+
+margin-left:20px;
+
+
+padding:8px 15px;
+
+
+border-radius:8px;
+
+
+}
+
+
+
+.menu a:hover{
+
+
+background:#444;
+
+
+}

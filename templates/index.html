@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Status Akademik Mahasiswa</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Prediksi Akademik</div>
+        <div class="menu">
+            <a href="/">Prediksi</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/informasi">Informasi</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Sistem Prediksi Status Akademik Mahasiswa</h1>
+        <p class="subtitle">Menggunakan Algoritma Random Forest</p>
+
+        <form action="/predict" method="POST">
+            <h2>Data Mahasiswa</h2>
+
+            <label>Nama Mahasiswa</label>
+            <input type="text" name="nama" placeholder="Masukkan nama mahasiswa" required>
+
+            <label>Umur Saat Masuk Kuliah</label>
+            <input type="number" name="age" placeholder="Contoh: 19" required>
+
+            <label>Admission Grade</label>
+            <input type="number" step="0.01" name="admission" placeholder="Contoh: 140" required>
+
+            <label>Status Pembayaran UKT</label>
+            <select name="tuition">
+                <option value="1">Sudah Membayar</option>
+                <option value="0">Belum Membayar</option>
+            </select>
+
+            <h2>Data Semester 1</h2>
+
+            <label>Jumlah Mata Kuliah Diambil</label>
+            <input type="number" name="sem1_enrolled" placeholder="Contoh: 6" required>
+
+            <label>Jumlah Mata Kuliah Lulus</label>
+            <input type="number" name="sem1_approved" placeholder="Contoh: 5" required>
+
+            <label>Nilai Semester 1 (Skala Dataset 0-20)</label>
+            <input type="number" step="0.01" name="sem1_grade" placeholder="Contoh: 13.5" required>
+
+            <h2>Data Semester 2</h2>
+
+            <label>Jumlah Mata Kuliah Diambil</label>
+            <input type="number" name="sem2_enrolled" placeholder="Contoh: 6" required>
+
+            <label>Jumlah Mata Kuliah Lulus</label>
+            <input type="number" name="sem2_approved" placeholder="Contoh: 6" required>
+
+            <label>Nilai Semester 2 (Skala Dataset 0-20)</label>
+            <input type="number" step="0.01" name="sem2_grade" placeholder="Contoh: 14.2" required>
+
+            <button type="submit">Prediksi Status</button>
+        </form>
+
+        {% if error %}
+        <div class="error">
+            <h3>Validasi Input</h3>
+            <p>{{error}}</p>
+        </div>
+        {% endif %}
+
+        {% if prediction %}
+        <div class="hasil">
+            <h2>Hasil Prediksi</h2>
+            <p>Nama Mahasiswa: <b>{{nama}}</b></p>
+            <p>Status Akademik: <span class="status">{{prediction}}</span></p>
+            <p>{{keterangan}}</p>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
