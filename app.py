@@ -62,21 +62,21 @@ if menu == "Prediksi":
 
 
     age = st.number_input(
-        "Age at Enrollment",
+        "Umur Saat Masuk Kuliah",
         min_value=15,
         max_value=70
     )
 
 
     admission = st.number_input(
-        "Admission Grade",
+        "Nilai Masuk Kuliah",
         min_value=0.0,
         max_value=200.0
     )
 
 
     tuition = st.selectbox(
-        "Tuition Fees Up To Date",
+        "Status Pembayaran UKT (0 = Sudah Bayar, 1 = Belom bayar)",
         [
             0,
             1
