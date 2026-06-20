@@ -10,9 +10,14 @@ st.set_page_config(page_title="Prediksi Status Akademik", layout="wide")
 # ==========================
 # LOAD MODEL
 # ==========================
-model = joblib.load("model/random_forest_model.pkl")
-scaler = joblib.load("model/scaler.pkl")
-encoder = joblib.load("model/label_encoder.pkl")
+@st.cache_resource
+def load_models():
+    model = joblib.load("model/random_forest_model.pkl")
+    scaler = joblib.load("model/scaler.pkl")
+    encoder = joblib.load("model/label_encoder.pkl")
+    return model, scaler, encoder
+
+model, scaler, encoder = load_models()
 
 # ==========================
 # MENU
@@ -25,37 +30,36 @@ menu = st.sidebar.selectbox("Menu", ["Prediksi", "Dashboard", "Informasi"])
 if menu == "Prediksi":
     st.title("🎓 Prediksi Status Akademik Mahasiswa")
 
-    nama = st.text_input("Nama Mahasiswa")
-    age = st.number_input("Umur Saat Masuk Kuliah", min_value=15, max_value=70)
-    admission = st.number_input("Nilai Masuk Kuliah", min_value=0.0, max_value=200.0)
-    tuition_status = st.selectbox(
-        "Status Pembayaran UKT",
-        [
-            "Sudah Bayar",
-            "Belum Bayar"
-        ]
-    )
+    # Input Data Diri
+    col_bio1, col_bio2 = st.columns(2)
+    with col_bio1:
+        nama = st.text_input("Nama Mahasiswa")
+        age = st.number_input("Umur Saat Masuk Kuliah", min_value=15, max_value=70)
+    with col_bio2:
+        admission = st.number_input("Nilai Masuk Kuliah", min_value=0.0, max_value=200.0)
+        tuition_status = st.selectbox("Status Pembayaran UKT", ["Sudah Bayar", "Belum Bayar"])
 
+    tuition = 1 if tuition_status == "Sudah Bayar" else 0
 
-    if tuition_status == "Sudah Bayar":
-        tuition = 1
-    else:
-        tuition = 0
+    # Input Data Akademik (Berjejer menggunakan Kolom)
+    col_sem1, col_sem2 = st.columns(2)
+    
+    with col_sem1:
+        st.subheader("Semester 1")
+        sem1_enrolled = st.number_input("Jumlah Mata Kuliah Semester 1", min_value=0, key="s1_en")
+        sem1_approved = st.number_input("Jumlah Lulus Semester 1", min_value=0, key="s1_ap")
+        sem1_grade = st.number_input("Nilai Semester 1 (Skala Dataset 0-20)", min_value=0.0, max_value=20.0, key="s1_gr")
 
-    st.subheader("Semester 1")
-    sem1_enrolled = st.number_input("Jumlah Mata Kuliah Semester 1", min_value=0)
-    sem1_approved = st.number_input("Jumlah Lulus Semester 1", min_value=0)
-    sem1_grade = st.number_input("Nilai Semester 1 (Skala Dataset 0-20)", min_value=0.0, max_value=20.0)
-
-    st.subheader("Semester 2")
-    sem2_enrolled = st.number_input("Jumlah Mata Kuliah Semester 2", min_value=0)
-    sem2_approved = st.number_input("Jumlah Lulus Semester 2", min_value=0)
-    sem2_grade = st.number_input("Nilai Semester 2 (Skala Dataset 0-20)", min_value=0.0, max_value=20.0)
+    with col_sem2:
+        st.subheader("Semester 2")
+        sem2_enrolled = st.number_input("Jumlah Mata Kuliah Semester 2", min_value=0, key="s2_en")
+        sem2_approved = st.number_input("Jumlah Lulus Semester 2", min_value=0, key="s2_ap")
+        sem2_grade = st.number_input("Nilai Semester 2 (Skala Dataset 0-20)", min_value=0.0, max_value=20.0, key="s2_gr")
 
     # ==========================
-    # PREDIKSI
+    # PROSES PREDIKSI
     # ==========================
-    if st.button("Prediksi"):
+    if st.button("Mulai Prediksi", type="primary"):
         # VALIDASI
         if sem1_approved > sem1_enrolled:
             st.error("Jumlah mata kuliah Semester 1 yang lulus tidak boleh lebih besar dari yang diambil.")
@@ -64,84 +68,72 @@ if menu == "Prediksi":
         else:
             # 36 FEATURES DATASET
             data = np.array([[
-                0, # Marital status
-                0, # Application mode
-                0, # Application order
-                0, # Course
-                0, # Daytime
-                0, # Previous qualification
-                0, # Previous qualification grade
-                0, # Nationality
-                0, # Mother qualification
-                0, # Father qualification
-                0, # Mother occupation
-                0, # Father occupation
-                admission, # Admission grade
-                0, # Displaced
-                0, # Educational special needs
-                0, # Debtor
-                tuition, # Tuition fees up to date
-                0, # Gender
-                0, # Scholarship holder
-                age, # Age enrollment
-                0, # International
-                0, # sem1 credited
-                sem1_enrolled, # sem1 enrolled
-                0, # sem1 evaluations
-                sem1_approved, # sem1 approved
-                sem1_grade, # sem1 grade
-                0, # sem1 without evaluation
-                0, # sem2 credited
-                sem2_enrolled, # sem2 enrolled
-                0, # sem2 evaluation
-                sem2_approved, # sem2 approved
-                sem2_grade, # sem2 grade
-                0, # sem2 without evaluation
-                0, # unemployment
-                0, # inflation
-                0  # GDP
+                0,              # Marital status
+                0,              # Application mode
+                0,              # Application order
+                0,              # Course
+                0,              # Daytime
+                0,              # Previous qualification
+                0,              # Previous qualification grade
+                0,              # Nationality
+                0,              # Mother qualification
+                0,              # Father qualification
+                0,              # Mother occupation
+                0,              # Father occupation
+                admission,      # Admission grade
+                0,              # Displaced
+                0,              # Educational special needs
+                0,              # Debtor
+                tuition,        # Tuition fees up to date
+                0,              # Gender
+                0,              # Scholarship holder
+                age,            # Age enrollment
+                0,              # International
+                0,              # sem1 credited
+                sem1_enrolled,  # sem1 enrolled
+                0,              # sem1 evaluations
+                sem1_approved,  # sem1 approved
+                sem1_grade,     # sem1 grade
+                0,              # sem1 without evaluation
+                0,              # sem2 credited
+                sem2_enrolled,  # sem2 enrolled
+                0,              # sem2 evaluation
+                sem2_approved,  # sem2 approved
+                sem2_grade,     # sem2 grade
+                0,              # sem2 without evaluation
+                0,              # unemployment
+                0,              # inflation
+                0               # GDP
             ]])
 
+            # Transformasi & Prediksi
             data_scaled = scaler.transform(data)
-
-            # Prediksi model
             prediction = model.predict(data_scaled)
-
-            # Probabilitas tiap kelas
             prob = model.predict_proba(data_scaled)[0]
-
-
-            # hasil prediksi asli Random Forest
             hasil = encoder.inverse_transform(prediction)[0]
 
+            # Output Tampilan Hasil
+            st.write("---")
+            st.subheader("📊 Hasil Analisis")
+            
+            # Tampilkan probabilitas
+            st.write("**Probabilitas Prediksi:**")
+            st.write({
+                "Dropout": f"{prob[0]*100:.2f}%",
+                "Enrolled": f"{prob[1]*100:.2f}%",
+                "Graduate": f"{prob[2]*100:.2f}%"
+            })
 
-            # tampilkan probabilitas
-            st.subheader("Probabilitas Prediksi")
+            # Ringkasan Status
+            st.success(f"**Nama Mahasiswa:** {nama}  \n**Status Akademik Terprediksi:** {hasil}")
 
-            st.write(
-                {
-                    "Dropout": f"{prob[0]*100:.2f}%",
-                    "Enrolled": f"{prob[1]*100:.2f}%",
-                    "Graduate": f"{prob[2]*100:.2f}%"
-                }
-            )
-
-
-            st.success(
-            f"""
-            Nama: {nama}
-
-            Status Akademik:
-            {hasil}
-            """
-            )
-
+            # Alert Box Kondisional
             if hasil == "Graduate":
-                st.info("Mahasiswa diprediksi memiliki kemungkinan tinggi menyelesaikan studi.")
+                st.info("💡 Mahasiswa diprediksi memiliki kemungkinan tinggi menyelesaikan studi.")
             elif hasil == "Enrolled":
-                st.warning("Mahasiswa masih dalam proses pendidikan.")
+                st.warning("⚠️ Mahasiswa masih dalam proses pendidikan.")
             else:
-                st.error("Mahasiswa memiliki risiko dropout.")
+                st.error("🚨 Mahasiswa memiliki risiko dropout.")
 
 # ==========================
 # DASHBOARD
@@ -169,8 +161,8 @@ elif menu == "Dashboard":
 # INFORMASI
 # ==========================
 else:
-    st.title("Tentang Sistem")
+    st.title("ℹ️ Tentang Sistem")
     st.write("""
     Sistem ini digunakan untuk melakukan prediksi status akademik mahasiswa 
-    menggunakan algoritma Random Forest berdasarkan data akademik.
+    menggunakan algoritma Random Forest berdasarkan data akademik yang diinput.
     """)
