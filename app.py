@@ -104,7 +104,13 @@ if menu == "Prediksi":
 
             data_scaled = scaler.transform(data)
             prediction = model.predict(data_scaled)
-            prob = model.predict_proba(data_scaled)
+            prob = model.predict_proba(data_scaled)[0]
+            if prob[1] >= 0.25:
+                hasil = "Enrolled"
+            else:
+                hasil = encoder.inverse_transform(
+                    model.predict(data_scaled)
+                )[0]
             hasil = encoder.inverse_transform(prediction)[0]
             st.write(
                 {
