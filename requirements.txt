@@ -1,6 +1,5 @@
-Flask==3.x.x
+streamlit
 numpy
 pandas
 scikit-learn
 joblib
-gunicorn
